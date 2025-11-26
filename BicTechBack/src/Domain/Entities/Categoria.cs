@@ -8,6 +8,5 @@ namespace BicTechBack.src.Core.Entities
         public string Nombre { get; set; }
 
         public ICollection<Producto> Productos { get; set; }
-        public ICollection<CategoriaMarca> CategoriasMarcas { get; set; }
     }
 }

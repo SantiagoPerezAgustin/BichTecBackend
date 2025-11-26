@@ -16,7 +16,6 @@ namespace BicTechBack.src.Infrastructure.Repositories
         {
             return await _context.Productos
                 .Include(p => p.Categoria)
-                .Include(p => p.Marca)
                 .ToListAsync();
         }
 
@@ -24,7 +23,6 @@ namespace BicTechBack.src.Infrastructure.Repositories
         {
             return await _context.Productos
                 .Include(p => p.Categoria)
-                .Include(p => p.Marca)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
     }

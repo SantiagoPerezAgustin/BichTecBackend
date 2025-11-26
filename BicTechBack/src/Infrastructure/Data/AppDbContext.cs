@@ -15,9 +15,6 @@ namespace BicTechBack.src.Infrastructure.Data
         public DbSet<PedidoDetalle> PedidosDetalles { get; set; }
         public DbSet<CarritoDetalle> CarritosDetalles { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
-        public DbSet<Marca> Marcas { get; set; }
-        public DbSet <Pais> Paises { get; set; }
-        public DbSet<CategoriaMarca> CategoriasMarcas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,18 +39,6 @@ namespace BicTechBack.src.Infrastructure.Data
                 .WithMany(c => c.Productos)
                 .HasForeignKey(p => p.CategoriaId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Producto>()
-                .HasOne(p => p.Marca)
-                .WithMany(m => m.Productos)
-                .HasForeignKey(p => p.MarcaId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Marca>()
-                .HasOne(m => m.Pais)
-                .WithMany(p => p.Marcas)
-                .HasForeignKey(m => m.PaisId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Carrito>()
                 .HasOne(c => c.Usuario)
@@ -96,19 +81,6 @@ namespace BicTechBack.src.Infrastructure.Data
             modelBuilder.Entity<PedidoDetalle>()
                 .Property(pd => pd.Id)
                 .ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<CategoriaMarca>()
-                .HasKey(cm => cm.Id);
-
-            modelBuilder.Entity<CategoriaMarca>()
-                .HasOne(cm => cm.Categoria)
-                .WithMany(c => c.CategoriasMarcas)
-                .HasForeignKey(cm => cm.CategoriaId);
-
-            modelBuilder.Entity<CategoriaMarca>()
-                .HasOne(cm => cm.Marca)
-                .WithMany(m => m.CategoriasMarcas)
-                .HasForeignKey(cm => cm.MarcaId);
         }
     }
 }
