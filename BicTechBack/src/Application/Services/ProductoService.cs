@@ -9,16 +9,14 @@ namespace BicTechBack.src.Core.Services
     {
         private readonly IProductoRepository _repository;
         private readonly ICategoriaRepository _categoriaRepository;
-        private readonly IMarcaRepository _marcaRepository;
         private readonly IMapper _mapper;
         private readonly IAppLogger<ProductoService> _logger;
 
-        public ProductoService(IProductoRepository repository, IMarcaRepository marcaRepository,
+        public ProductoService(IProductoRepository repository,
             ICategoriaRepository categoriaRepository, IMapper mapper, IAppLogger<ProductoService> logger)
         {
             _repository = repository;
             _categoriaRepository = categoriaRepository;
-            _marcaRepository = marcaRepository;
             _mapper = mapper;
             _logger = logger;
         }
@@ -36,12 +34,6 @@ namespace BicTechBack.src.Core.Services
             {
                 _logger.LogWarning("Categoría no encontrada al crear producto: {CategoriaId}", dto.CategoriaId);
                 throw new InvalidOperationException("La categoría especificada no existe.");
-            }
-
-            if (!await _marcaRepository.ExistsAsync(dto.MarcaId))
-            {
-                _logger.LogWarning("Marca no encontrada al crear producto: {MarcaId}", dto.MarcaId);
-                throw new InvalidOperationException("La marca especificada no existe.");
             }
 
             var producto = _mapper.Map<Producto>(dto);
@@ -125,12 +117,6 @@ namespace BicTechBack.src.Core.Services
             {
                 _logger.LogWarning("Categoría no encontrada al actualizar producto: {CategoriaId}", dto.CategoriaId);
                 throw new InvalidOperationException("La categoría especificada no existe.");
-            }
-
-            if (!await _marcaRepository.ExistsAsync(dto.MarcaId))
-            {
-                _logger.LogWarning("Marca no encontrada al actualizar producto: {MarcaId}", dto.MarcaId);
-                throw new InvalidOperationException("La marca especificada no existe.");
             }
 
             _mapper.Map(dto, productoExistente);
